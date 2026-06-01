@@ -28,7 +28,7 @@ def get_top_scorer_per_club(teams):
 
     # Pobierz RAZ listę wszystkich strzelców z sezonu (oszczędza requesty!)
     print("Pobieram listę strzelców Premier League...")
-    scorers_url = f"{BASE_URL}/competitions/PL/scorers?season=2024&limit=100"
+    scorers_url = f"{BASE_URL}/competitions/PL/scorers?season=2024&limit=200"
     scorers_response = requests.get(scorers_url, headers=headers)
     all_scorers = scorers_response.json().get("scorers", [])
     print(f"Pobrano {len(all_scorers)} strzelców\n")
@@ -76,7 +76,7 @@ def get_top_scorer_per_club(teams):
             "Klub": team_name,
             "Król strzelców": top["player"]["name"],
             "Gole": top["goals"],
-            "Pozycja": position_map.get(player_id, "N/A")
+            "Pozycja": position_map.get(player_id) or top["player"].get("section") or "N/A"
         })
 
         time.sleep(7)
